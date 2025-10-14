@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  },
+  "name": "diy-api",
+  "version": "1.0.0",
+  "description": "This is deep die to understand the rest api help of http",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "harsh sokhanda",
+  "license": "ISC"
+}

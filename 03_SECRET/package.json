@@ -1,0 +1,19 @@
+{
+  "name": "secret",
+  "version": "1.0.0",
+  "description": "Secret page protect by password.",
+  "main": "script.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "author": "harsh sokhanda",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "path": "^0.12.7",
+    "url": "^0.11.4"
+  }
+}

@@ -1,0 +1,243 @@
+main.js
+  │
+  ├──> routes/routes.js
+  │        │
+  │        └──> models/users.js
+  │
+  ├──> views/
+  │      ├── index.ejs
+  │      ├── add_user.ejs
+  │      ├── edit_users.ejs
+  │      └── layout/
+  │
+  └──> uploads/
+
+Explanation:-
+.main.js is the entry point, sets up the server, and connects everything.
+.routes/routes.js defines the HTTP routes and uses the user model.
+.models/users.js defines the user schema for the database.
+.views/ contains EJS templates for rendering pages.
+.uploads/ stores uploaded files.
+
+
+
+
+Short :-
+Packages/Modules:-
+1. Express Js (Framwork Based on NodeJS) - It is used for designing building web application quickly and easy.
+2. Mongoose (Object Data Modeling (ODM) Library) - it provides straight forword schema based solution to model application.
+3. EJS (Embedded javaScript) - ejs templating engine that is used to generate html markup with plaining javascript.
+4. Multer(Image Uploading) - It is middleware of haddling multipart/form data which is used for uploading images.
+5. Express Session (Storing Session Message) - It is used for stroe msg in session.
+6. Dotenv (environment variables) - It is used for loading environment variables from .env file.
+7. Nodemon (monitoring Server) - It will monitor any changes automatically restart the server in localhost with the changes.
+
+##
+.env file is created to store environment variables.
+👉 Reason:
+When we build an application, we have some sensitive data (like database username/password, API keys, JWT secrets, etc.) 
+and configuration values (like PORT number).
+If we write them directly in code, anyone who sees the code can also see these secrets.
+
+-----------------------------------------------------------------------------------------------------------------------------
+1️⃣ 
+app.use(session({
+    secret: "my secret key",
+    saveUninitialized: true,
+    resave: false
+}));
+
+This middleware allows your app to remember data about a user across requests (like login info), which plain Express doesn’t 
+do because HTTP is stateless.
+
+-Stateless means:
+Every request from the client (browser) to the server is independent and has no memory of previous requests.
+
+What is express-session?
+express-session middleware is used to store user-specific data between HTTP requests, like login info, shopping cart, or 
+preferences.
+
+app.use(session({
+    secret: "my secret key",   // session secure बनाने के लिए
+    saveUninitialized: true,   // खाली session भी save होगा
+    resave: false               // बिना बदलाव के session फिर से save नहीं होगा
+}));
+
+
+कैसे काम करता है:
+User site visit करता है → नया session बनता है
+Session ID browser में cookie के रूप में save होता है
+Server session data (जैसे login info) store करता है
+अगली request पर server cookie पढ़कर user याद रखता है
+
+
+2️⃣ 
+app.use((req, res, next) => {
+    res.locals.message = req.session.message;
+    delete req.session.message;
+    next();
+});
+
+Without it: the message would stay in the session forever, and show up again and again.
+With it: the message shows once (like “Registration successful” or “Invalid password”), then gets deleted.
+
+req.session.message का मतलब है कि message session में stored है।
+Session तभी possible है जब आपने express-session middleware use किया हो।
+यह middleware सिर्फ session में रखे गए message को view तक पहुँचाने और फिर delete करने का काम करता है।
+Without express-session, req.session ही exist नहीं करेगा, तो यह middleware काम नहीं करेगा।
+-----------------------------------------------------------------------------------------------------------------------------
+
+3️⃣
+app.set("view engine", "ejs") 
+Express को बताता है कि हम EJS (Embedded JavaScript) templating engine use करेंगे।
+इससे आप .ejs files (views/templates) को सीधे res.render() के साथ render कर सकते हो।
+ex-
+app.get("/", (req, res) => {
+    res.render("index.ejs", { title: "Home Page" });
+});
+
+🔹 1. What is a Schema?
+A schema defines how your data looks — its structure, types, and rules.
+
+🔹 2. What is a Model?
+A model is the actual interface (or tool) that allows the server to read, write, and update documents in the database using that schema.
+views/index.ejs file में आप लिख सकते हो:
+<h1><%= title %></h1>
+
+##
+const router = express.Router();
+Express में Router एक छोटा सा mini-application होता है।
+ये तुम्हें routes (जैसे /login, /register, /products) अलग-अलग फाइलों में define करने देता है ताकि कोड साफ और organized रहे।
+
+🧴 What is bodyParser?
+It’s like a translator or interpreter.
+It reads the data sent by the user, and converts it into something your server can understand — like a clean JavaScript object.
+
+🔧 Why Use bodyParser?
+When a client sends data to your server (e.g., submitting a form), the raw data is sent in the body of the HTTP request.
+By default, Express doesn't parse this data—you need middleware to do it.
+
+## why we use this bodyPares and these 
+   app.use(bodyParser.urlencoded({ extended: true }));
+   app.use(bodyParser.json());
+   or
+   app.use(express.urlencoded({extended: true}))
+Ans- Both of these are middleware that works to read and understand the data coming to the Express server, so that you can use it easily.
+     Think of them as "data translators."req.body"
+1. Why use it app.use(express.urlencoded({ extended: true })).
+When we submit the HTML form, the browser sends the data in a URL-encoded format.
+This middleware reads that data and converts it into a JavaScript object and the data insert into req.body.
+
+2. Why use it app.use(express.json()).
+When the client sends data in JSON format (e.g., data sent from).axiosfetch
+This middleware reads JSON and converts it into a JavaScript object.
+ 
+
+###
+🔹 1. import router from "./routes/routes.js";
+आपने अपनी अलग routes file (routes.js) बनाई है।
+उस file में आपने express.Router() से routes define किए होंगे।
+यहाँ आप उसी router object को import कर रहे हो।
+
+🔹 2. app.use("", router);
+app.use() Express में middleware या router attach करने के लिए होता है।
+पहला parameter ("") prefix कहलाता है।
+👉 इसका मतलब है:
+"" (empty string) देने का मतलब है कोई prefix नहीं लगेगा।
+यानी routes file में जो भी path लिखा है, वही direct चलेगा।
+
+###
+import multer from "multer";
+let storage = multer.diskStorage({
+  destination: function(req, file, cb){
+    cb(null, "./uploads");
+  },
+  filename: function(req, file, cb){
+    cb(null, file.fieldname+"_"+Date.now()+"_"+file.originalname);
+  }
+});
+
+let upload = multer({
+  storage: storage,
+}).single("image");
+👉 In short:
+We use this code so the backend can accept an image from the frontend and save it safely in the uploads/ folder with a unique name.
+
+Quick summary
+This code tells multer to save uploaded files to disk (the ./uploads folder) and to give each file a unique filename. upload becomes 
+an Express middleware that accepts one file from the form field named "image" and places metadata about that file on req.file
+
+1. import multer from "multer";
+   We bring in the multer library, which is needed to handle file uploads (like images, PDFs, etc.) in Express.
+
+2. let storage = multer.diskStorage({...});
+   This creates a storage engine that tells multer:
+   Where to save the uploaded file → ("./uploads")
+   What name to give the file → (fieldname + timestamp + originalname)
+   So instead of multer choosing a random name, you control the destination and filename.
+
+3. destination: function(req, file, cb) {...}
+   This decides the folder where files should be stored.
+   Here, all uploaded files go into ./uploads.
+
+4. filename: function(req, file, cb) {...}
+   This decides the filename when saving.
+   Here, the file is saved like:
+
+5. let upload = multer({ storage: storage }).single("image");
+   This initializes multer middleware that:
+   Uses the storage rules above.
+   Accepts only one file from the form field named "image".
+   After upload, the file info will be in req.file.
+
+✅ In short:
+Static data → you write it in your code.
+Dynamic data → comes from users or clients at runtime, via an API endpoint like POST /add.
+
+
+----------------------------------------------------------------------------------------------------------------------
+1. What is DataTables?
+DataTables is a jQuery plugin.
+It makes your plain HTML <table> more powerful.
+Without it: tables just show static rows.
+With it: tables get search, sort, pagination, styling automatically.
+explain:-
+Search = find rows quickly
+Sort = order by any column
+Pagination = break big tables into smaller pages
+Styling = professional look automatically
+
+2. Why do we use it?
+Imagine you have 1,000 users in your MongoDB.
+Without DataTables: you’d scroll forever to find “Harsh”.
+With DataTables: you can type “Harsh” in the search box, or click the “Email” column to sort alphabetically.
+So it improves user experience and makes data easier to work with.
+
+3. Why we need jQuery here?
+DataTables is built as a jQuery plugin.
+That means it depends on jQuery’s way of selecting elements ($) and running code after the page loads.
+Example: $('table') is jQuery’s way of saying “select this table”.
+So:
+jQuery gives you easy DOM handling.
+DataTables extends jQuery to make tables interactive.
+
+// $The code `(document).ready(function () {
+// $('table').DataTable();
+// });` is using jQuery to initialize a DataTable on all `<table>` elements on the page when the document is fully loaded and ready. 
+// This code snippet waits for the document to be fully loaded before executing the function inside `$(document).ready()`.
+    
+    $(document).ready(function () {
+        $('table').DataTable({
+            order: [0, "desc"]
+        });
+    });
+## What does order: [0, "desc"] mean?
+order is a DataTables option that sets the default sorting for your table.
+[0, "desc"] means:
+0 → the first column (because columns are 0-indexed).
+"desc" → sort in descending order (largest → smallest, or latest → oldest).
+So: when the table loads, it will automatically sort by the first column in descending order.
+
+// Now your table has search, sorting, and pagination automatically.
+----------------------------------------------------------------------------------------------------------------------
+

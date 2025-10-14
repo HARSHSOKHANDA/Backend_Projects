@@ -1,0 +1,24 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/v/bs5/dt-2.3.4/datatables.min.js"
+    integrity="sha384-jVoHjtunWKmr2zpSki5PSXfFYRsTQQm1uk4wpf45zuYxast668XkB2fJL8PjloNc"
+    crossorigin="anonymous"></script>
+<script>
+    // $The code `(document).ready(function () {
+    //     $('table').DataTable();
+    // });` is using jQuery to initialize a DataTable on all `<table>` elements on the page when the document is fully loaded and ready. 
+    //     This code snippet waits for the document to be fully loaded before executing the function inside `$(document).ready()`.
+    $(document).ready(function () {
+        $('table').DataTable({
+            // order: [0, "desc"]
+        });
+    });
+    // Now your table has search, sorting, and pagination automatically.
+</script>
+</body>
+
+</html>
