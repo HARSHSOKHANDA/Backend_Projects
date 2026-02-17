@@ -241,3 +241,33 @@ So: when the table loads, it will automatically sort by the first column in desc
 // Now your table has search, sorting, and pagination automatically.
 ----------------------------------------------------------------------------------------------------------------------
 
+---> Explain this Crud_backend project?
+I built a User CRUD backend application using Node.js, Express, and MongoDB.
+The system allows users to create, read, update, and delete user records through RESTful APIs.
+I used Express for routing and middleware handling, Mongoose for database interaction, and Multer 
+for image upload functionality. I structured the project using MVC architecture, where routes handle 
+the endpoints, controllers contain the business logic, and models define the database schema.
+When a request comes in, it passes through the route to the controller, which interacts with 
+MongoDB and returns the response to the client.
+
+---> What is MVC architecture?
+MVC is a design pattern that separates an application into Model, View, and Controller.
+The model manages the data and database operations, the controller handles the business 
+logic and request processing, and the view is responsible for presentation.
+This separation makes the application more maintainable and scalable.
+
+____________________________________________________________________________
+🚀 Steps to Create a CRUD Backend Project
+🟢 Step 1: Create project folder
+🟢 Step 2: Install dependencies
+🟢 Step 3: Setup folder structure
+🟢 Step 4: Setup Express server (server.js)
+🟢 Step 5: Connect MongoDB (config/db.js)
+🟢 Step 6: Create User Model
+🟢 Step 7: Configure Multer (for image upload)
+🟢 Step 8: Create Controller Functions
+🟢 Step 9: Create Routes
+🟢 Step 10: Mount routes in server
+🟢 Step 11: Add scripts in package.json
+🟢 Step 12: Start server
+🟢 Step 13: Test in Postman
