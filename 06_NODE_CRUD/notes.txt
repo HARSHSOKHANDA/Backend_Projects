@@ -1,16 +1,27 @@
-main.js
-  │
-  ├──> routes/routes.js
-  │        │
-  │        └──> models/users.js
-  │
-  ├──> views/
-  │      ├── index.ejs
-  │      ├── add_user.ejs
-  │      ├── edit_users.ejs
-  │      └── layout/
-  │
-  └──> uploads/
+```
+NODE_CRUD/
+├── config/
+│   └── db.js                 # Database connection configuration
+├── controllers/
+│   └── usersController.js    # Business logic for user operations
+├── models/
+│   └── users.js              # User schema and database model
+├── routes/
+│   └── usersRoutes.js        # API routes for CRUD operations
+├── views/
+│   ├── index.ejs             # Home page - users list
+│   ├── add_user.ejs          # Form to add new user
+│   ├── edit_users.ejs        # Form to edit existing user
+│   └── layout/
+│       ├── header.ejs        # Header template
+│       └── footer.ejs        # Footer template
+├── uploads/                  # Directory for uploaded files
+├── .env                      # Environment variables
+├── server.js                 # Express app entry point
+├── package.json              # Project dependencies
+├── package-lock.json         # Locked dependency versions
+└── readme.md                 # This file
+```
 
 Explanation:-
 .main.js is the entry point, sets up the server, and connects everything.
