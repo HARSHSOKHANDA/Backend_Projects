@@ -58,15 +58,15 @@ app.use(session({
     resave: false
 }));
 
+What is express-session?
+express-session middleware is used to store user-specific data between HTTP requests, like login info, shopping cart, or 
+preferences.
+
 This middleware allows your app to remember data about a user across requests (like login info), which plain Express doesn’t 
 do because HTTP is stateless.
 
 -Stateless means:
 Every request from the client (browser) to the server is independent and has no memory of previous requests.
-
-What is express-session?
-express-session middleware is used to store user-specific data between HTTP requests, like login info, shopping cart, or 
-preferences.
 
 app.use(session({
     secret: "my secret key",   // session secure बनाने के लिए
@@ -76,10 +76,13 @@ app.use(session({
 
 
 कैसे काम करता है:
-User site visit करता है → नया session बनता है
-Session ID browser में cookie के रूप में save होता है
-Server session data (जैसे login info) store करता है
-अगली request पर server cookie पढ़कर user याद रखता है
+New User → Request (No Cookie)
+Server → New Session Create
+Server → Session ID Generate
+Server → Cookie में Session ID भेजता है
+Server → Session Data Store करता है
+Next Request → Browser Session ID भेजता है
+Server → Session ID से User पहचानता है
 
 
 2️⃣ 
