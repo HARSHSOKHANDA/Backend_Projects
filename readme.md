@@ -35,6 +35,9 @@ A simple RESTful API built with Express.js that provides endpoints for basic CRU
 
 A full-stack application that demonstrates Create, Read, Update, and Delete operations using Express.js and a database (e.g., MongoDB). It includes user authentication and session management.
 
+### 7. Personal Blog Application
+A Node.js + Express backend for a personal blog with admin authentication, post CRUD, and server‑rendered pages using EJS. It uses MongoDB with Mongoose, JWT in cookies for auth, and a service‑controller architecture for clean, maintainable code.
+
 ## Getting Started
 
 ### Prerequisites

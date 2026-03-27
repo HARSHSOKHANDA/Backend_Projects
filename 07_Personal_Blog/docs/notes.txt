@@ -1,0 +1,379 @@
+#### Structure of My Personal_Blog project ###
+
+Personal_Blog
+│
+├── .env
+├── .gitignore
+├── package-lock.json
+├── package.json
+│
+├── docs
+│   └── notes.txt
+│
+├── public
+│   ├── css
+│   │   └── style.css
+│   ├── images
+│   │   ├── hero-image.webp
+│   │   └── img-noise-361x370.png
+│   └── js
+│       └── script.js
+│
+├── server
+│   ├── app.js
+│   └── server.js
+│
+├── src
+│   ├── config
+│   │   └── db.js
+│   ├── controllers
+│   │   ├── adminController.js
+│   │   └── userControllers.js
+│   ├── middlewares
+│   │   └── authMiddleware.js
+│   ├── models
+│   │   ├── Posts.js
+│   │   └── User.js
+│   ├── routes
+│   │   ├── adminRoutes.js
+│   │   └── usersRoutes.js
+│   ├── services
+│   │   ├── adminService.js
+│   │   └── userService.js
+│   └── utils
+│       └── routeHelpers.js
+│
+└── views
+    ├── admin
+    │   ├── createPost.ejs
+    │   ├── dashboard.ejs
+    │   ├── editPost.ejs
+    │   └── login.ejs
+    ├── frontend
+    │   ├── about.ejs
+    │   ├── contact.ejs
+    │   ├── index.ejs
+    │   ├── post.ejs
+    │   └── search.ejs
+    ├── layouts
+    │   ├── admin.ejs
+    │   └── main.ejs
+    └── partials
+        ├── footer.ejs
+        ├── header.ejs
+        ├── header_admin.ejs
+        └── search.ejs
+
+
+npm i bcrypt connect-mongo cookie-parser dotenv ejs express express-ejs-layouts express-session 
+      jsonwebtoken mathod-override mongoose
+
+I’ll explain what each package does and why you need it in a blog project—no fluff.
+✅ 1. express
+What it is:
+A Node.js web framework.
+
+Why you need it:
+It handles routes, requests, responses, middleware.
+Without Express, building a backend is painful.
+👉 Example:
+/login, /register, /posts, /api/blogs
+
+✅ 2. mongoose
+What it is:
+A MongoDB ODM (Object Data Modeling).
+
+Why you need it:
+To connect MongoDB and define schemas/models.
+
+👉 Example:
+User model, Blog model, Comment model.
+
+✅ 3. bcrypt
+What it is:
+Password hashing library.
+
+Why you need it:
+To encrypt passwords before saving in database.
+If DB is hacked, real passwords are safe.
+
+❌ Storing plain passwords = TRASH security
+
+✅ 4. jsonwebtoken (JWT)
+What it is:
+Creates and verifies authentication tokens.
+
+Why you need it:
+To keep users logged in without sessions (for APIs).
+Used in MERN apps, mobile apps, SPA apps.
+
+👉 Example:
+User logs in → server sends JWT → browser sends token in requests.
+
+✅ 5. express-session
+What it is:
+Session middleware for Express.
+
+Why you need it:
+To store user login session on server.
+Alternative to JWT.
+👉 Example:
+After login, server remembers user with session ID.
+
+✅ 6. connect-mongo
+What it is:
+Stores sessions in MongoDB.
+
+Why you need it:
+By default sessions store in RAM (bad for production).
+This saves sessions in database.
+👉 Needed for scalable apps.
+
+✅ 7. cookie-parser
+What it is:
+Parses cookies from browser.
+
+Why you need it:
+Sessions and JWT often use cookies.
+Without this, Express can’t read cookies easily.
+
+✅ 8. dotenv
+What it is:
+Loads environment variables from .env file.
+
+Why you need it:
+To hide secrets like:
+Database URL
+JWT secret
+Session secret
+
+❌ Never hardcode secrets in code (rookie mistake)
+
+✅ 9. ejs
+What it is:
+Template engine (HTML with JS).
+
+Why you need it:
+To render dynamic pages like:
+Blog list
+Single blog page
+Dashboard
+👉 Server-side rendering (not React).
+
+✅ 10. express-ejs-layouts
+What it is:
+Layout support for EJS.
+Why you need it:
+To reuse header/footer/navbar across pages.
+Instead of repeating HTML in every file.
+
+✅ 11. method-override (you typed mathod-override)
+What it is:
+Allows PUT & DELETE requests from HTML forms.
+
+Why you need it:
+HTML forms only support:
+GET
+POST
+But CRUD needs:
+PUT
+DELETE
+This package fakes those methods.
+
+
+Step: 1
+.check node installation
+node -v
+
+Step: 2
+.initialize npm
+npm init -y
+
+Step: 3
+.install dependencies all at once for the project
+npm install express mongoose ejs express-ejs-layouts express-session
+            connect-mongo bcrypt jsonwebtoken cookie-pareser method-override dotenv 
+
+Step: 4
+.install development dependencies
+npm install nodemon --save-dev
+
+Step: 5
+.create a .env file to store environment variables
+touch .env .gitignore
+
+Step: 6
+.add the following line to the .env file to set the port number
+PORT=3000
+
+.add the following line to the .gitignore file to ignore the .env file
+node_modules/
+.env
+
+Step: 7
+edit the package.json file to add a start script for nodemon
+"scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  }
+
+Step: 8
+.create an app.js file to set up the Express server
+
+Step: 9
+.create a public folder to store static files like CSS, JS, and images
+inside the public folder, create a css folder and a js folder to organize your static files
+
+Step: 10
+.create a server folder to store all the route files for the application
+inside the server folder, create a routes folder to store all the route files for the application
+
+
+Explain things how it works in simple language in hindi:-
+
+1. Session क्यों use करते हैं?
+पहले एक real life example समझो:
+
+तुम एक hotel में गए, reception पर जाकर अपना नाम बताया, उन्होंने तुम्हें एक room key card दी। अब जब भी तुम hotel में कहीं जाओ, 
+वो key card दिखाओ — बिना बार-बार नाम बताए।
+Internet में भी यही होता है:
+
+User login करता है
+      ↓
+Server एक Session बनाता है (जैसे room key card)
+      ↓
+Session ID browser की cookie में save होती है
+      ↓
+हर request पर वो ID server को जाती है
+      ↓
+Server पहचान लेता है — "अरे यह तो वही user है!" ✅
+
+*javascript*
+app.use(session({
+  secret: process.env.SESSION_SECRET, // session को sign करने की चाबी
+  resave: false,                       // बिना change के session save मत करो
+  saveUninitialized: false,            // खाली session save मत करो
+  store: MongoStore.create({           // sessions MongoDB में save होंगी
+    mongoUrl: process.env.DB_URI,
+    collectionName: 'sessions',        // MongoDB में 'sessions' collection बनेगी
+  })
+}));
+
+SESSION_SECRET क्यों?
+Session ID को कोई hack करके fake न बना सके इसलिए उसे SECRET से sign किया जाता है — जैसे hotel की key card पर एक secret chip होती है।
+
+## What is JWT?
+JWT stands for JSON Web Token. JWT is a self-contained, digitally signed token that allows the server to verify the identity 
+of a user on every request without querying the database — making authentication fast, stateless, and scalable
+
+## Why use it?
+HTTP is stateless — the server forgets who you are after every request. JWT solves this problem.
+
+Real world example:
+"Think of JWT like a passport. At the airport, you prove your identity once, get a passport stamped, 
+and then show that passport everywhere — without proving your citizenship again and again. JWT works the same way."
+
+## JWT vs Session — why prefer JWT?
+Both do the same job BUT differently:
+SESSION:                          JWT:
+    ↓                               ↓
+Server memory/DB में               Token के अंदर
+data save होता है                  data save होता है
+    ↓                               ↓
+Cookie में sirf                    Cookie में poora
+Session ID जाता है                 Token जाता है
+    ↓                               ↓
+Har request pe                     Har request pe
+DB check karo                      Sirf verify karo
+
+--> Interview answer:
+"Session and JWT both solve statelessness but differently. 
+Session stores data on the server and sends only an ID to the browser — requiring a database lookup on every request. 
+JWT stores data inside the token itself — so the server just verifies the signature without touching the database. 
+In my project, I use Session for flash messages and JWT for authentication because they each excel at different things."
+
+--> Why we import the method-override package?
+HTML forms sirf GET/POST support karte hain
+method-override POST request ko PUT/DELETE mein badal deta hai — taaki tumhara REST API sahi se kaam kare.
+
+
+--> Status code
+// 500 - Server की गलती
+res.status(500).json({ message: error.message });
+
+// 404 - Page नहीं मिला
+res.status(404).json({ message: "User not found!" });
+
+// 401 - Login नहीं है
+res.status(401).json({ message: "Please login first!" });
+
+// 400 - User ने गलत data भेजा
+res.status(400).json({ message: "Invalid email or password!" });
+
+
+____________________________ Explaination of the Project ____________________________________
+I built a backend for a personal blog application using Node.js, Express, and MongoDB.
+The project allows an admin to log in securely, create, edit, and delete blog posts,
+and users can view posts with pagination and search functionality.
+I designed the project using an MVC architecture with an additional service layer.
+Routes handle incoming requests, controllers manage requests and responses, and services
+contain business logic and database operations. This separation helps keep the code clean,
+scalable, and reusable. For authentication, I used JWT stored in HTTP-only cookies and
+protected admin routes using middleware. I also implemented pagination on the homepage and
+a search feature using MongoDB queries for better performance and usability.
+Overall, my focus was not just functionality but also clean architecture, so I structured the
+project with controllers, services, middlewares, and models to follow industry practices.
+
+____________________________________________________________________________________________
+
+🚀 Steps to Create the Personal_Blog Backend Project
+
+🟢 Step 1: Create project folder
+Personal_Blog
+
+🟢 Step 2: Initialize npm + install dependencies
+express, mongoose, dotenv, ejs, express-ejs-layouts, cookie-parser, express-session, connect-mongo, 
+method-override, jsonwebtoken, bcrypt, nodemon
+
+🟢 Step 3: Setup folder structure
+server/, src/, views/, public/, docs/
+
+🟢 Step 4: Setup Express app (server/app.js)
+Initialize app, set middleware, configure EJS, static folder
+
+🟢 Step 5: Create server entry (server/server.js)
+Only starts the server using app.listen()
+
+🟢 Step 6: Connect MongoDB (src/config/db.js)
+Use Mongoose and env variables
+
+🟢 Step 7: Create Models
+User.js, Posts.js
+
+🟢 Step 8: Build Services layer
+Business logic in src/services/
+Example: userService.js, adminService.js
+
+🟢 Step 9: Build Controllers
+Call services + return response
+userControllers.js, adminController.js
+
+🟢 Step 10: Create Routes
+usersRoutes.js, adminRoutes.js
+
+🟢 Step 11: Add Middleware
+authMiddleware.js to protect admin routes
+
+🟢 Step 12: Add Views (EJS templates)
+views/frontend/ and views/admin/
+
+🟢 Step 13: Mount routes in app
+app.use("/", usersRoutes)
+app.use("/admin", adminRoutes)
+
+🟢 Step 14: Add scripts in package.json
+"start": "node server/server.js"
+"dev": "nodemon server/server.js"
+
+🟢 Step 15: Start server + test
+Open browser for pages and use Postman for API endpoints
