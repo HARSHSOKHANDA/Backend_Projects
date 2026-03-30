@@ -1,3 +1,4 @@
+// server.js so that we can run the server with node server.js
 import 'dotenv/config';
 import app from './app.js';
 

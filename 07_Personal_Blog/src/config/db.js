@@ -1,3 +1,4 @@
+// db.js - MongoDB connection setup using Mongoose
 import mongoose from "mongoose";
 
 const connectDB = async () => {

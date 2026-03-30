@@ -1,3 +1,4 @@
+// Express app setup with EJS, session management, and route handling for a personal blog application.
 import express from "express";
 import expressEjsLayouts from 'express-ejs-layouts';
 import methodOverride from "method-override";

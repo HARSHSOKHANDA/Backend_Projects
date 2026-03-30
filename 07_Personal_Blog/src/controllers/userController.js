@@ -1,3 +1,5 @@
+// ================= CONTROLLER =================
+
 import {
     getPaginatedPosts,
     getPostById,
